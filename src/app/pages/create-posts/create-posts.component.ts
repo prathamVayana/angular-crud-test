@@ -4,6 +4,7 @@ import {
   FormGroup,
   FormGroupDirective,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { catchError, map, Observable, of } from 'rxjs';
 import { PostsService } from '../../services/posts.service';
@@ -12,47 +13,69 @@ import { Post } from '../../models/posts';
 
 @Component({
   selector: 'app-create-posts',
+  standalone:true,
   imports: [ReactiveFormsModule],
   templateUrl: './create-posts.component.html',
   styleUrl: './create-posts.component.css',
 })
 export class CreatePostsComponent {
   private postsService = inject(PostsService);
-  postForm = new FormGroup({
-    title: new FormControl<string | null>(''),
-    post: new FormControl<string>(''),
-    tags: new FormControl<string[]>([]),
-  });
 
-  availableTags = ['crime', 'suspense', 'mystery', 'comedy'];
+  readonly availableTags = ['crime', 'suspense', 'mystery', 'comedy'];
 
-  onTagChange(tag: string, event: Event) {
-    const tagsControl = this.postForm.get('tags') as FormControl<string[]>;
-    const currentTags = tagsControl.value || [];
-    let isChecked: boolean = (event.target as HTMLInputElement).checked;
-    if (isChecked) {
-      tagsControl.setValue([...currentTags, tag]);
-    } else {
-      tagsControl.setValue(currentTags.filter((t) => t !== tag));
-    }
+  readonly postForm = this.createPostForm();
+
+   private createPostForm(): FormGroup {
+    return new FormGroup({
+      title: new FormControl('', { nonNullable: true, validators: Validators.required }), // instead of this.postForm.value.title! where ! means can not be null this nonNullable method is way more intuitive.
+      post: new FormControl('', { nonNullable: true, validators: Validators.required }),
+      tags: new FormControl<string[]>([], { nonNullable: true }),
+    });
   }
 
-  createPost(event: Event) {
+  onTagChange(tag: string, event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.toggleTag(tag, isChecked);
+  }
+
+  private toggleTag(tag: string, checked: boolean): void {
+    const tagsControl = this.postForm.get('tags') as FormControl<string[]>;
+    const currentTags = tagsControl.value ?? [];
+
+    const updatedTags = checked
+      ? [...currentTags, tag]
+      : currentTags.filter(t => t !== tag);
+
+    tagsControl.setValue(updatedTags);
+  }
+
+  private mapFormToPost(): Post {
+    const { title, post, tags } = this.postForm.value;
+    return {
+      id: Math.random(),
+      title,
+      body: post,
+      tags,
+      userId: 131, 
+    };
+  }
+
+  createPost(event: Event): void {
     event.preventDefault();
 
-    const formValue = this.postForm.value;
+    if (this.postForm.invalid) {
+      this.postForm.markAllAsTouched();
+      return;
+    }
 
-    const post: Post = {
-      id: Math.random(),
-      title: formValue.title!,
-      body: formValue.post!,
-      tags: formValue.tags!,
-      userId: 131,
-    };
+    const newPost = this.mapFormToPost();
 
-    this.postsService.createPost(post).subscribe({
+    this.postsService.createPost(newPost).subscribe({
       next: (result) => console.log('Post created:', result),
-      error: (err) => console.error('Failed to create post:', err),
+      error: (err) => {
+        console.error('Failed to create post:', err);
+        return of(err);
+      },
     });
 
     this.postForm.reset({

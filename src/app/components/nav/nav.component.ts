@@ -3,7 +3,7 @@ import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@ang
 
 @Component({
   selector: 'app-nav',
-  imports: [RouterLink,RouterOutlet,RouterLinkActive],
+  imports: [RouterLink,RouterLinkActive],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
