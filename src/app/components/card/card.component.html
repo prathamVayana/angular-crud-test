@@ -1,0 +1,9 @@
+<div class="card">
+    <h2>{{post.title}}</h2>
+    <p>{{post.body}}</p>
+    <div class="tags">
+        @for(t of post.tags;track t){
+            <span class="tag">{{t}}</span>
+        }
+    </div>
+</div>

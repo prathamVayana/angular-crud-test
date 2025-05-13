@@ -1,0 +1,21 @@
+.nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-inline: 15px;
+}
+
+.routes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.routes li{
+    list-style: none;
+}
+
+.routes li a{
+    text-decoration: none;
+}

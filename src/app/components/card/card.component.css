@@ -1,0 +1,15 @@
+.card{
+    padding: 15px;
+}
+
+.tags{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.tag{
+    padding: 5px;
+    background-color: antiquewhite;
+    border-radius: 20%;
+}
