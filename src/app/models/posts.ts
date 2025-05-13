@@ -3,9 +3,9 @@ export interface Post{
     title?:string
     body?:string
     tags?:string[]
-    reactions:reactions
-    views:number
-    userId:number
+    reactions?:reactions
+    views?:number
+    userId?:number
 }
 
 interface reactions{

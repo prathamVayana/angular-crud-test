@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { Post } from '../models/posts';
 import { HttpClient } from '@angular/common/http';
 import { Observable,catchError,throwError } from 'rxjs';
-
-
-interface PostsResponse{
-  posts:Post[]
-}
+import { PostsResponse } from '../models/apiModels/posts';
 
 
 @Injectable({
@@ -15,6 +11,7 @@ interface PostsResponse{
 export class PostsService {
   private readonly apiUrl = 'https://dummyjson.com/posts';
   constructor(private http: HttpClient) {}
+
   getPosts(): Observable<PostsResponse> {
     return this.http.get<PostsResponse>(this.apiUrl).pipe(
       catchError(error => {
@@ -22,6 +19,15 @@ export class PostsService {
         return throwError(() => new Error('Failed to fetch posts'));
       })
     );
+  }
+
+  createPost(post:Post): Observable<Post>{
+    return this.http.post<Post>(`${this.apiUrl}/add`,post).pipe(
+      catchError(err=>{
+        console.log(err)
+        return throwError(()=>new Error("failed to create post!"))
+      })
+    )
   }
 
 }

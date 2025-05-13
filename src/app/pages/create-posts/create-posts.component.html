@@ -1,0 +1,24 @@
+<p>write a post</p>
+<form [formGroup] = "postForm">
+    <input placeholder="Title" formControlName="title"/>
+    <br>
+    <input placeholder="post" formControlName="post"/>
+    <br>
+    @for(tg of availableTags;track tg){
+        <label>
+            <input type="checkbox" name="{{tg}}" (change)="onTagChange(tg, $event)"/> {{tg}}
+        </label>
+    }
+    <!-- <label>
+        <input type="checkbox" name="crime"/> crime
+    </label>
+    <label>
+        <input type="checkbox" name="action"/> action
+    </label>
+    <label>
+        <input type="checkbox" name="mystery"/> mystery
+    </label> -->
+    <br>
+    <button (click)="createPost($event)">create</button>
+        
+</form>
