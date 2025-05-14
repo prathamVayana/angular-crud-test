@@ -30,4 +30,13 @@ export class PostsService {
     )
   }
 
+  deletePost(id:number): Observable<Post>{
+    return this.http.delete<Post>(`${this.apiUrl}/${id}`).pipe(
+      catchError(err=>{
+        console.log(err)
+        return throwError(()=>new Error("failed to delete post!"))
+      })
+    )
+  }
+
 }

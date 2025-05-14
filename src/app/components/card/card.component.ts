@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, output } from '@angular/core';
 import { Post } from '../../models/posts';
 
 @Component({
@@ -10,6 +10,7 @@ import { Post } from '../../models/posts';
 
 export class CardComponent {
     @Input() post:Post
+    @Output() handleDeletePost = new EventEmitter()
 
     constructor(){
       this.post={
@@ -24,6 +25,10 @@ export class CardComponent {
           dislikes:0
         }
       }
+    }
+
+    delete(){
+      this.handleDeletePost.emit()
     }
     
 }

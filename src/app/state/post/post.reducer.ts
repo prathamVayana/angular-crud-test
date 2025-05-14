@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadPostsFailure, loadPostsSuccess } from './post.actions';
+import { deletePostSuccess, loadPostsFailure, loadPostsSuccess } from './post.actions';
 import { Post } from '../../models/posts';
 
 export interface PostState {
@@ -26,7 +26,13 @@ export const postReducer = createReducer(
     ...state,
     loading: false,
     error,
-  }))
+  })),
+  on(deletePostSuccess, (state, { postId }) => ({
+     ...state,
+      posts:state.posts.filter((it)=>it.id!==postId),
+      loading:false,
+      error:null
+  })),
 );
 
  

@@ -5,7 +5,7 @@ import { CardComponent } from '../../components/card/card.component';
 import { catchError, combineLatest, filter, map, Observable, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { loadPosts } from '../../state/post/post.actions';
+import { deletePost, loadPosts } from '../../state/post/post.actions';
 import { AppState } from '../../state/app.state';
 import {
   selectAllPosts,
@@ -37,5 +37,9 @@ export class PostComponent {
 
   ngOnInit() {
     this.store.dispatch(loadPosts());
+  }
+
+  deletePost(id:number){
+    this.store.dispatch(deletePost({id}))
   }
 }

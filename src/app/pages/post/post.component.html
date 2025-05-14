@@ -9,7 +9,7 @@
   }
   @else if (vm.posts.length > 0) {
     @for (p of vm.posts; track p) {
-      <app-card [post]="p" />
+      <app-card [post]="p" (handleDeletePost)="deletePost(p.id)" />
     }
   }
   @else {
