@@ -1,9 +1,18 @@
 <h2>Posts</h2>
-@if (posts$ | async; as posts){
-    @for(p of posts;track p){
-        <app-card [post]="p"/>
+
+@if (viewModel$ | async; as vm) {
+  @if (vm.loading) {
+    <app-loading/>
+  }
+  @else if (vm.error) {
+    <p class="error">Error: {{ vm.error }}</p>
+  }
+  @else if (vm.posts.length > 0) {
+    @for (p of vm.posts; track p) {
+      <app-card [post]="p" />
     }
-}
-@else{
-    <p>no posts found</p>
+  }
+  @else {
+    <p>No posts found.</p>
+  }
 }

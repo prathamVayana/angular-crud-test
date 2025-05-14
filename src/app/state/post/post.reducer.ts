@@ -10,13 +10,18 @@ export interface PostState {
 
 const initialState: PostState = {
   posts: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 
 export const postReducer = createReducer(
   initialState,
-  on(loadPostsSuccess, (state, { posts }) => ({ ...state, posts })),
+  on(loadPostsSuccess, (state, { posts }) => ({
+     ...state,
+      posts,
+      loading:false,
+      error:null
+    })),
   on(loadPostsFailure, (state, { error }) => ({
     ...state,
     loading: false,
