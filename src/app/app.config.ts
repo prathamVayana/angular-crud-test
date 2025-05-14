@@ -12,13 +12,15 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { postReducer } from './state/post/post.reducer';
 import { PostEffects } from './state/post/post.effects';
+import { reducers } from './state/app.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    provideStore({posts:postReducer}),
+    // provideStore({posts:postReducer}),
+    provideStore(reducers),
     provideEffects(PostEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],

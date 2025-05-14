@@ -10,13 +10,13 @@ import { of } from 'rxjs';
 export class PostEffects {
 
   actions$= inject(Actions)
-  postsService=inject(PostsService)
+  postsService$=inject(PostsService)
 
   loadPosts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadPosts),
       switchMap(() =>
-        this.postsService.getPosts().pipe(
+        this.postsService$.getPosts().pipe(
           map((posts) => loadPostsSuccess({posts:posts?.posts ?? []})),
           catchError((err)=>{
             return  of(loadPostsFailure({error:err.message || 'failed to load posts'}))
