@@ -12,7 +12,7 @@ import {
   selectPostError,
   selectPostLoading,
 } from '../../state/post/post.selector';
-import { LoadingComponent } from "../../components/loading/loading.component";
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 @Component({
   selector: 'app-post',
@@ -27,7 +27,7 @@ export class PostComponent {
   loading$ = this.store.select(selectPostLoading);
   error$ = this.store.select(selectPostError);
 
-   viewModel$: Observable<{
+  viewModel$: Observable<{
     posts: Post[];
     loading: boolean;
     error: string | null;
