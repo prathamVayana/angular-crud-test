@@ -27,7 +27,7 @@ export class CreatePostsComponent {
 
    private createPostForm(): FormGroup {
     return new FormGroup({
-      title: new FormControl('', { nonNullable: true, validators: Validators.required }), // instead of this.postForm.value.title! where ! means can not be null this nonNullable method is way more intuitive.
+      title: new FormControl('', { nonNullable: true, validators: [Validators.required,Validators.maxLength(50)]  }), // instead of this.postForm.value.title! where ! means can not be null this nonNullable method is way more intuitive.
       post: new FormControl('', { nonNullable: true, validators: Validators.required }),
       tags: new FormControl<string[]>([], { nonNullable: true }),
     });
@@ -65,6 +65,7 @@ export class CreatePostsComponent {
 
     if (this.postForm.invalid) {
       this.postForm.markAllAsTouched();
+      alert("invalid information")
       return;
     }
 
