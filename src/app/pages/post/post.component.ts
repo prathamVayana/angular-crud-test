@@ -13,11 +13,12 @@ import {
   selectPostLoading,
 } from '../../state/post/post.selector';
 import { LoadingComponent } from '../../components/loading/loading.component';
+import { CreatePostsComponent } from "../create-posts/create-posts.component";
 
 @Component({
   selector: 'app-post',
   standalone: true,
-  imports: [CardComponent, AsyncPipe, LoadingComponent],
+  imports: [CardComponent, AsyncPipe, LoadingComponent, CreatePostsComponent,CreatePostsComponent],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css',
 })

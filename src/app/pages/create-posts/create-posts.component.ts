@@ -10,6 +10,9 @@ import { catchError, map, Observable, of } from 'rxjs';
 import { PostsService } from '../../services/posts.service';
 import { Title } from '@angular/platform-browser';
 import { Post } from '../../models/posts';
+import { AppState } from '../../state/app.state';
+import { Store } from '@ngrx/store';
+import { createPost } from '../../state/post/post.actions';
 
 @Component({
   selector: 'app-create-posts',
@@ -19,6 +22,7 @@ import { Post } from '../../models/posts';
   styleUrl: './create-posts.component.css',
 })
 export class CreatePostsComponent {
+  private store = inject(Store<AppState>);
   private postsService = inject(PostsService);
 
   readonly availableTags = ['crime', 'suspense', 'mystery', 'comedy'];
@@ -52,7 +56,7 @@ export class CreatePostsComponent {
   private mapFormToPost(): Post {
     const { title, post, tags } = this.postForm.value;
     return {
-      id: Math.random(),
+      id: Math.floor(Math.random()*1000),
       title,
       body: post,
       tags,
@@ -69,15 +73,17 @@ export class CreatePostsComponent {
       return;
     }
 
-    const newPost = this.mapFormToPost();
+    const post = this.mapFormToPost();
 
-    this.postsService.createPost(newPost).subscribe({
-      next: (result) => console.log('Post created:', result),
-      error: (err) => {
-        console.error('Failed to create post:', err);
-        return of(err);
-      },
-    });
+    this.store.dispatch(createPost({post})) 
+
+    // this.postsService.createPost(newPost).subscribe({
+    //   next: (result) => console.log('Post created:', result),
+    //   error: (err) => {
+    //     console.error('Failed to create post:', err);
+    //     return of(err);
+    //   },
+    // });
 
     this.postForm.reset({
       title: '',
